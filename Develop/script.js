@@ -10,7 +10,12 @@ var upperCaseEl = confirm("Do you want uppercase?");
 var numberEl = confirm("Do you want numbers?");
 var symbolEl = confirm("Do you want special symbols?");
 
-
+var randomFunc = {
+  lower: getRandomLower,
+  upper: getRandomUpper,
+  number: getRandomNumber,
+  symbol: getRandomSymbol
+};
 
 
 // Write password to the #password input
@@ -21,7 +26,7 @@ function writePassword() {
   var hasNumber = numberEl.checked;
   var hasSymbol = symbolEl.checked;
 
-  var password = generatePassword(length, hasLower, hasUpper, hasNumber, hasSymbol);
+  var password = generatePassword(length, lower, upper, number, symbol);
   var passwordText = document.querySelector("#password");
 
   passwordText.value = password;
@@ -50,21 +55,25 @@ function getRandomSymbol () {
   return symbols[Math.floor(Math.random() * symbols.length)];
 }
 
-function generatePassword(length, hasLower, hasUpper, hasNumber, hasSymbol) {
+function generatePassword(length, lower, upper, number, symbol) {
 
 
   var generatedPassword = "";
-  var typesCount = hasLower + hasUpper + hasNumber + hasSymbol;
+  var typesCount = lower + upper + number + symbol;
 
-  var typesArr = [{hasLower}, {hasUpper}, {hasNumber}, {hasSymbol}].filter
+  var typesArr = [{lower}, {upper}, {number}, {symbol}].filter
   (
     item => Object.values(item)[0]
   );
   
   for (let i = 0; i < length; i += typesCount) {
     typesArr.forEach(type => {
-      
+      var funcName = Object.keys(type)[0];
+
+      generatedPassword += randomFunc[funcName]();
     });
   }
+
+
 }
 
