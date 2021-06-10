@@ -2,31 +2,31 @@
 var generateBtn = document.querySelector("#generate");
 
 do{
-  var lengthEl = parseInt(window.prompt("Please enter a number from 8 to 128", ""), 10);
-}while(isNaN(lengthEl) || lengthEl > 128 || lengthEl < 8);
+  var length = parseInt(window.prompt("Please enter a number from 8 to 128", ""), 10);
+}while(isNaN(length) || length > 128 || length < 8);
 
-var lowerCaseEl = confirm("Do you want lowercase?");
-var upperCaseEl = confirm("Do you want uppercase?");
-var numberEl = confirm("Do you want numbers?");
-var symbolEl = confirm("Do you want special symbols?");
+var lowerCase = confirm("Do you want lowercase?");
+var upperCase = confirm("Do you want uppercase?");
+var number = confirm("Do you want numbers?");
+var symbol = confirm("Do you want special symbols?");
 
 var randomFunc = {
-  lower: getRandomLower,
-  upper: getRandomUpper,
+  lowerCase: getRandomLower,
+  upperCase: getRandomUpper,
   number: getRandomNumber,
   symbol: getRandomSymbol
 };
 
+// var length = lengthEl.value;
+// var hasLower = lowerCaseEl.checked;
+// var hasUpper = upperCaseEl.checked;
+// var hasNumber = numberEl.checked;
+// var hasSymbol = symbolEl.checked;
 
 // Write password to the #password input
 function writePassword() {
-  var length = lengthEl.value;
-  var hasLower = lowerCaseEl.checked;
-  var hasUpper = upperCaseEl.checked;
-  var hasNumber = numberEl.checked;
-  var hasSymbol = symbolEl.checked;
 
-  var password = generatePassword(length, lower, upper, number, symbol);
+  var password = generatePassword(length, lowerCase, upperCase, number, symbol);
   var passwordText = document.querySelector("#password");
 
   passwordText.value = password;
@@ -55,16 +55,22 @@ function getRandomSymbol () {
   return symbols[Math.floor(Math.random() * symbols.length)];
 }
 
-function generatePassword(length, lower, upper, number, symbol) {
+
+
+function generatePassword(length, lowerCase, upperCase, number, symbol) {
 
 
   var generatedPassword = "";
-  var typesCount = lower + upper + number + symbol;
+  var typesCount = lowerCase + upperCase + number + symbol;
 
-  var typesArr = [{lower}, {upper}, {number}, {symbol}].filter
+  var typesArr = [{lowerCase}, {upperCase}, {number}, {symbol}].filter
   (
     item => Object.values(item)[0]
   );
+
+  if(typesCount === 0) {
+    return "";
+  }
   
   for (let i = 0; i < length; i += typesCount) {
     typesArr.forEach(type => {
@@ -73,7 +79,8 @@ function generatePassword(length, lower, upper, number, symbol) {
       generatedPassword += randomFunc[funcName]();
     });
   }
-
-
+  var finalPassword = generatedPassword.slice(0, length);
+  
+  return finalPassword;
 }
 
