@@ -1,21 +1,7 @@
 // Assignment Code
 var generateBtn = document.querySelector("#generate");
 
-//Prompts for the user to accept the certain conditions and setting them as variables
-do{
-  var length = parseInt(window.prompt("Please enter a number from 8 to 128", ""), 10);
-}while(isNaN(length) || length > 128 || length < 8);
 
-var lowerCase = confirm("Do you want lowercase?");
-var upperCase = confirm("Do you want uppercase?");
-var number = confirm("Do you want numbers?");
-var symbol = confirm("Do you want special symbols?");
-
-//if the user does not select yes to any conditions, it refreshes the page advising that one conidition has to be true.
-if (lowerCase == false && upperCase == false && number == false && symbol == false) {
-  alert("You must accept yes to one of the conditions");
-  location.reload();
-}
 
 // generates randowm lower case letters
 function getRandomLower() {
@@ -38,7 +24,7 @@ function getRandomSymbol () {
 }
 
 //assigns the statement trues/falses to the above functions
-var randomFunc = {
+var passwordArray = {
   lowerCase: getRandomLower,
   upperCase: getRandomUpper,
   number: getRandomNumber,
@@ -50,10 +36,27 @@ var randomFunc = {
 // Write password to the #password input
 function writePassword() {
 
-  var password = generatePassword(length, lowerCase, upperCase, number, symbol);
-  var passwordText = document.querySelector("#password");
+    //Prompts for the user to accept the certain conditions and setting them as variables
+    do{
+      var length = parseInt(window.prompt("Please enter a number between 8 and 128", ""), 10);
+    }while(isNaN(length) || length > 128 || length < 8);
 
-  passwordText.value = password;
+    var lowerCase = confirm("Do you want lowercase?");
+    var upperCase = confirm("Do you want uppercase?");
+    var number = confirm("Do you want numbers?");
+    var symbol = confirm("Do you want special symbols?");
+
+    //if the user does not select yes to any conditions, it refreshes the page advising that one conidition has to be true.
+    if (lowerCase == false && upperCase == false && number == false && symbol == false) {
+
+      alert("You must accept yes to one of the conditions");
+      reload();
+    }
+
+    var password = generatePassword(length, lowerCase, upperCase, number, symbol);
+    var passwordText = document.querySelector("#password");
+
+    passwordText.value = password;
 }
 
 // Add event listener to generate button
@@ -80,7 +83,7 @@ function generatePassword(length, lowerCase, upperCase, number, symbol) {
     typesArr.forEach(type => {
       var funcName = Object.keys(type)[0];
 
-      generatedPassword += randomFunc[funcName]();
+      generatedPassword += passwordArray[funcName]();
     });
   }
   var finalPassword = generatedPassword.slice(0, length);
