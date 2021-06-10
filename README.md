@@ -1,5 +1,6 @@
 # 03-Javascript-Password-Generator
 
+The live link is https://chandtheman1.github.io/03-Javascript-Password-Generator/Develop/index.html
 
 
 Password generator that prompts for user's conditional inputs of the password after clicking on the button.
