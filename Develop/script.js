@@ -1,6 +1,7 @@
 // Assignment Code
 var generateBtn = document.querySelector("#generate");
 
+//Prompts for the user to accept the certain conditions and setting them as variables
 do{
   var length = parseInt(window.prompt("Please enter a number from 8 to 128", ""), 10);
 }while(isNaN(length) || length > 128 || length < 8);
@@ -10,30 +11,11 @@ var upperCase = confirm("Do you want uppercase?");
 var number = confirm("Do you want numbers?");
 var symbol = confirm("Do you want special symbols?");
 
-var randomFunc = {
-  lowerCase: getRandomLower,
-  upperCase: getRandomUpper,
-  number: getRandomNumber,
-  symbol: getRandomSymbol
-};
-
-// var length = lengthEl.value;
-// var hasLower = lowerCaseEl.checked;
-// var hasUpper = upperCaseEl.checked;
-// var hasNumber = numberEl.checked;
-// var hasSymbol = symbolEl.checked;
-
-// Write password to the #password input
-function writePassword() {
-
-  var password = generatePassword(length, lowerCase, upperCase, number, symbol);
-  var passwordText = document.querySelector("#password");
-
-  passwordText.value = password;
+//if the user does not select yes to any conditions, it refreshes the page advising that one conidition has to be true.
+if (lowerCase == false && upperCase == false && number == false && symbol == false) {
+  alert("You must accept yes to one of the conditions");
+  location.reload();
 }
-
-// Add event listener to generate button
-generateBtn.addEventListener("click", writePassword);
 
 // generates randowm lower case letters
 function getRandomLower() {
@@ -55,7 +37,31 @@ function getRandomSymbol () {
   return symbols[Math.floor(Math.random() * symbols.length)];
 }
 
+//assigns the statement trues/falses to the above functions
+var randomFunc = {
+  lowerCase: getRandomLower,
+  upperCase: getRandomUpper,
+  number: getRandomNumber,
+  symbol: getRandomSymbol
+};
 
+
+
+// Write password to the #password input
+function writePassword() {
+
+  var password = generatePassword(length, lowerCase, upperCase, number, symbol);
+  var passwordText = document.querySelector("#password");
+
+  passwordText.value = password;
+}
+
+// Add event listener to generate button
+generateBtn.addEventListener("click", writePassword);
+
+
+
+//function to generate password
 
 function generatePassword(length, lowerCase, upperCase, number, symbol) {
 
@@ -68,9 +74,7 @@ function generatePassword(length, lowerCase, upperCase, number, symbol) {
     item => Object.values(item)[0]
   );
 
-  if(typesCount === 0) {
-    return "";
-  }
+  
   
   for (let i = 0; i < length; i += typesCount) {
     typesArr.forEach(type => {
